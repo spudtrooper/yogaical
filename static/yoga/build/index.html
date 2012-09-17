@@ -1,56 +1,58 @@
 <html>
   <head>
-<title></title>
-</head>
-<body>
-<h1>Yoga Calendar</h1>
-<p>
-These are ical versions of the <a href="http://schedule.yogaworks.com"
-target="_">YogaWorks</a> <a href="http://schedule.yogaworks.com"
-target="_">schedule</a>, so you can import it into google calendar or
-other calendar apps.  This is in no way affiliated with YogaWorks --
-I'm just a fan.
-e.g. <a href="http://support.google.com/calendar/bin/answer.py?hl=en&answer=37100">here</a>
-are the instructions for importing a URL (like the ones below) into
-google calendar.
-</p>
-<p>
-This link shows all studios in New York City:
-</p>
-<ul>
-<li><a href="/yoga/cal.ics?locations=Soho">All</a></li>
-</ul>
+    <title>Yoga Calendar</title>
+  </head>
+  <body>
+    <h1>Yoga Calendar</h1>
+    <p>
+      These are ical versions of
+      the <a href="http://schedule.yogaworks.com"
+      target="_">YogaWorks</a> <a href="http://schedule.yogaworks.com"
+      target="_">schedule</a>, so you can import it into google
+      calendar or other calendar apps.  This is in no way affiliated
+      with YogaWorks -- I'm just a fan.
+      e.g. <a href="http://support.google.com/calendar/bin/answer.py?hl=en&answer=37100">here</a>
+      are the instructions for importing a URL (like the ones below)
+      into google calendar.
+    </p>
+    <p>
+      This link shows all studios in New York City:
+    </p>
+    <ul>
+      <li><a href="/yoga/cal.ics?locations=Soho">All</a></li>
+    </ul>
 
-<p>
-These links each show the schedule for that location:
-</p>
+    <p>
+      These links each show the schedule for that location:
+    </p>
 
-<ul>
-<li><a href="/yoga/cal.ics?locations=Eastside">Eastside</a></li>
-<li><a href="/yoga/cal.ics?locations=TT Center">TT Center</a></li>
-<li><a href="/yoga/cal.ics?locations=Union Square">Union Square</a></li>
-<li><a href="/yoga/cal.ics?locations=Westchester">Westchester</a></li>
-<li><a href="/yoga/cal.ics?locations=Westside">Westside</a></li>
-<li><a href="/yoga/cal.ics?locations=Soho">Soho</a></li>
-</ul>
+    <ul>
+      <li><a href="/yoga/cal.ics?locations=Eastside">Eastside</a></li>
+      <li><a href="/yoga/cal.ics?locations=TT Center">TT Center</a></li>
+      <li><a href="/yoga/cal.ics?locations=Union Square">Union Square</a></li>
+      <li><a href="/yoga/cal.ics?locations=Westchester">Westchester</a></li>
+      <li><a href="/yoga/cal.ics?locations=Westside">Westside</a></li>
+      <li><a href="/yoga/cal.ics?locations=Soho">Soho</a></li>
+    </ul>
 
-<p>
-You can select the locations you'd like to view and click <em>Get
-calendar</em> to generate a custom feed:
-</p>
-<form action="/yoga/cal.ics" method="get">
-  <select name="locations" multiple size="6">
-    <option value="Eastside">Eastside</option>
-    <option value="TT Center">TT Center</option>
-    <option value="Union Square">Union Square</option>
-    <option value="Westchester">Westchester</option>
-    <option value="Westside">Westside</option>
-    <option value="Soho">Soho</option>
-  </select>
-  <input type="submit" value="Get calendar"></input>
-</form>
-<p>
-e.g. <a href="/yoga/cal.ics?locations=Union+Square&locations=Soho">Union Square + Soho</a>
-
-</body>
+    <p>
+      You can select the locations you'd like to view and
+      click <em>Get calendar</em> to generate a custom feed:
+    </p>
+    <form action="/yoga/cal.ics" method="get">
+      <select name="locations" multiple size="6">
+	<option value="Eastside">Eastside</option>
+	<option value="TT Center">TT Center</option>
+	<option value="Union Square">Union Square</option>
+	<option value="Westchester">Westchester</option>
+	<option value="Westside">Westside</option>
+	<option value="Soho">Soho</option>
+      </select>
+      <input type="submit" value="Get calendar"></input>
+    </form>
+    <p>
+      e.g. <a href="/yoga/cal.ics?locations=Union+Square&locations=Soho">Union
+      Square + Soho</a>
+    </p>   
+  </body>
 </html>
