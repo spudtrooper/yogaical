@@ -110,7 +110,6 @@ class YogaCal:
         res += "END:VCALENDAR\r\n"
         return res
 
-
     @staticmethod
     def pad(n):
         if (n < 10):
@@ -176,19 +175,35 @@ class YogaCal:
         res += "END:VEVENT\r\n"
         return res
 
-    def ics(self,locations=None):
+    def requestItems(self, locations=None, levels=None):
         """
         @param locations None or empty means we use all the cities
         @return iCal version of calendar at: http://schedule.yogaworks.com
         """
         if not locations:
             locations = []
+        if not levels:
+            levels = []
+        levelsStr = '|'.join(['.*\(%s\).*' % (str(level)) for level in levels])
+        levelRe = re.compile(levelsStr)
         res = self.request()
         adp = YogaCalJsonAdapter(json.read(res))
-        res = self.header(locations)
+        filteredItems = adp.items
+
+        # Filter by locations
         filteredItems = filter(lambda it: len(locations) == 0 or 
-                               (it.location.name in locations), adp.items)
-        for it in filteredItems:
+                               (it.location.name in locations), filteredItems)
+
+        # Filter by levels
+        filteredItems = filter(lambda it: len(levels) == 0 or
+                               re.match(levelRe, it.klass.name), filteredItems)
+        return filteredItems
+    
+    def ics(self, **kwargs):
+        items = self.requestItems(kwargs)
+        locations = kwargs.get('locations') or []
+        res = self.header(locations)        
+        for it in items:
             res += self.toEvent(it)
         res += self.footer()
         return res

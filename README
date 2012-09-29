@@ -5,3 +5,9 @@ An ICS version of the YogaWorks schedules found here:
 This is built using google app engine.  Motivation is here:
 
   http://www.jeffpalm.com/blog/archives/002240.html
+
+* Testing
+
+You must export the path so that the tests pick up this module:
+
+  % export PYTHONPATH=.
