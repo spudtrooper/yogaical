@@ -117,22 +117,32 @@ class YogaCal:
         return '%d' % (n)
 
     @staticmethod
-    def dtstart(dateStr):
+    def dtstart(dateStr,offset=0):
+        """
+        @param offset number number of hours to pad the date
+                             NOTE: this won't handle wrapping offsets
+        """
         # 201209160830 -> 20120916T083000
         date = dateStr[0:8]    # 20120916
         time = dateStr[8:]     # 0830
         hours = int(time[0:2]) # 08
+        hours += offset
         mins = int(time[2:])   # 30
         newTime = '%s%s00' % (YogaCal.pad(hours), 
                               YogaCal.pad(mins))
         return '%sT%s' % (date,newTime)
 
     @staticmethod
-    def dtend(dateStr,dur):
+    def dtend(dateStr,dur,offset=0):
+        """
+        @param offset number number of hours to pad the date
+                             NOTE: this won't handle wrapping offsets
+        """
         # 201209160830, 75 -> 20120916T094500
         date = dateStr[0:8]            # 20120916
         time = dateStr[8:]             # 0830
         hours = int(time[0:2])         # 08
+        hours += offset
         mins = int(time[2:])           # 30
         
         carryHours = (mins + dur) / 60 # 1  = (30 + 75) / 60
@@ -151,15 +161,19 @@ class YogaCal:
         res = re.sub('\s+',' ',res)
         return res
 
-    def toEvent(self,item):
+    def toEvent(self, item, offset):
+        """
+        @param item YogaCalItem
+        @param offset number hours to pad dates
+        """
         res = ''
         res += "BEGIN:VEVENT\r\n"
         uid = '%d-%d-%d' % (item.klass.id,
                             item.instructor.id,
                             item.location.id)
         #res += "UID:%s\r\n" % (uid)
-        start = YogaCal.dtstart(item.date)
-        end = YogaCal.dtend(item.date,item.mins)
+        start = YogaCal.dtstart(item.date, offset)
+        end = YogaCal.dtend(item.date, item.mins, offset)
         res += "DTSTART:%s\r\n" % (start)
         res += "DTEND:%s\r\n" % (end)
         summary = '%s: %s @ %s (%d mins)' % (item.instructor.name,
@@ -175,9 +189,14 @@ class YogaCal:
         res += "END:VEVENT\r\n"
         return res
 
-    def requestItems(self, locations=None, levels=None, instructors=None):
+    def requestItems(self, locations=None, levels=None, instructors=None,
+                     offset=None):
         """
         @param locations None or empty means we use all the cities
+        @param levels array of class levels -- e.g. "1", "1/2"
+        @param instructors array of names of instructors to search for
+        @param offset number offset to pad hours, because google
+               calendar doesn't seem to respect no time zones
         @return iCal version of calendar at: http://schedule.yogaworks.com
         """
         if not locations:
@@ -211,9 +230,12 @@ class YogaCal:
     def ics(self, **kwargs):
         items = self.requestItems(**kwargs)
         locations = kwargs.get('locations') or []
-        res = self.header(locations)        
+        offset = kwargs.get('offset') or 0
+        if offset:
+            offset = int(offset)
+        res = self.header(locations)
         for it in items:
-            res += self.toEvent(it)
+            res += self.toEvent(it, offset)
         res += self.footer()
         return res
 

@@ -8,11 +8,19 @@ class YogaCalPage(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         levels = self.request.get_all('levels')
         locations = self.request.get_all('locations')
-        instructors = self.request.get_all('instructors')
+        instructorsIn = self.request.get_all('instructors')
+        
+        # Make sure there are no empty strings
+        instructors = []
+        for i in instructorsIn:
+            if i and i != '':
+                instructors.append(i)
+        offset = self.request.get('offset')
         cal = yogacal.YogaCal()
         self.response.out.write(cal.ics(locations=locations,
                                         levels=levels,
-                                        instructors=instructors))
+                                        instructors=instructors,
+                                        offset=offset))
 
 application = webapp.WSGIApplication(
   [('/yoga/cal.ics', YogaCalPage)],
