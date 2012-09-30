@@ -36,6 +36,14 @@ class TestYogaCal(unittest.TestCase):
         for i in ics:
             self.assertTrue(re.search('\(1\)', i.klass.name))
 
+    def test_ics_instructor(self):
+        instructors = ['Chrissy Carter']
+        ics = self.c.requestItems(instructors=instructors)
+        self.assertIsNotNone(ics)
+        self.assertGreater(len(ics), 1)
+        for i in ics:
+            self.assertTrue(re.search('Chrissy Carter', i.instructor.name))
+
     def test_yogacal(self):
         self.assertIsNotNone(self.c)
 

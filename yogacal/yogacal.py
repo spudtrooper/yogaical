@@ -175,7 +175,7 @@ class YogaCal:
         res += "END:VEVENT\r\n"
         return res
 
-    def requestItems(self, locations=None, levels=None):
+    def requestItems(self, locations=None, levels=None, instructors=None):
         """
         @param locations None or empty means we use all the cities
         @return iCal version of calendar at: http://schedule.yogaworks.com
@@ -184,6 +184,8 @@ class YogaCal:
             locations = []
         if not levels:
             levels = []
+        if not instructors:
+            instructors = []
         levelsStr = '|'.join(['.*\(%s\).*' % (str(level)) for level in levels])
         levelRe = re.compile(levelsStr)
         res = self.request()
@@ -192,15 +194,22 @@ class YogaCal:
 
         # Filter by locations
         filteredItems = filter(lambda it: len(locations) == 0 or 
-                               (it.location.name in locations), filteredItems)
+                               (it.location.name in locations), 
+                               filteredItems)
 
         # Filter by levels
         filteredItems = filter(lambda it: len(levels) == 0 or
-                               re.match(levelRe, it.klass.name), filteredItems)
+                               re.match(levelRe, it.klass.name), 
+                               filteredItems)
+
+        # Filter by instructors
+        filteredItems = filter(lambda it: len(instructors) == 0 or 
+                               (it.instructor.name in instructors), 
+                               filteredItems)
         return filteredItems
     
     def ics(self, **kwargs):
-        items = self.requestItems(kwargs)
+        items = self.requestItems(**kwargs)
         locations = kwargs.get('locations') or []
         res = self.header(locations)        
         for it in items:

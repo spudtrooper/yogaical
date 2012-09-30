@@ -40,6 +40,7 @@
       click <em>Get calendar</em> to generate a custom feed:
     </p>
     <form action="/yoga/cal.ics" method="get">
+      <b>Location</b>
       <select name="locations" multiple size="6">
 	<option value="Eastside">Eastside</option>
 	<option value="TT Center">TT Center</option>
@@ -48,6 +49,8 @@
 	<option value="Westside">Westside</option>
 	<option value="Soho">Soho</option>
       </select>
+      <br/>
+      <b>Level</b>
       <select name="levels" multiple size="5">
 	<option value="1">1</option>
 	<option value="1/2">1/2</option>
@@ -55,6 +58,9 @@
 	<option value="2/3">2/3</option>
 	<option value="3">3</option>
       </select>
+      <br/>
+      <b>Instructor</b>
+      <input type="text" value="" name="instructors"></input>
       <input type="submit" value="Get calendar"></input>
     </form>
     <p>
